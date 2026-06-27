@@ -294,3 +294,15 @@ body {
   background: rgba(239, 68, 68, 0.15);
   color: #f87171;
 }
+.tagline {
+  font-size: 15px;
+  font-weight: 600;
+  color: #c4c4d0;
+  margin-top: 6px;
+}
+
+.description {
+  font-size: 14px;
+  color: #8a8a99;
+  margin-top: 4px;
+}

@@ -109,11 +109,12 @@ function App() {
 
   return (
     <div className="app">
-      <div className="header">
-        <h1>Quiz Generator</h1>
-        <p>Upload notes → get fresh, plagiarism-resistant questions every time</p>
-      </div>
-
+    <div className="header">
+      <h1>BrewQuiz</h1>
+      <p className="tagline">Freshly brewed. Never the same twice.</p>
+      <p className="description">Upload notes → brew fresh, plagiarism-resistant quizzes every time</p>
+    </div>
+   
       <div className="card">
         <label className="upload-zone">
           <input type="file" accept="application/pdf" onChange={handleUpload} />
