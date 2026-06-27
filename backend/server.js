@@ -9,7 +9,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5000', 'https://quiz-generator-ebon.vercel.app/']
+  origin: ['http://localhost:3000', 'https://quiz-generator-ebon.vercel.app']
 }));
 app.use(express.json());
 
