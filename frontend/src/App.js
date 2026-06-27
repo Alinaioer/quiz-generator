@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const API = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API = process.env.https://quiz-generator-ebon.vercel.app/ ||  'http://localhost:5000/api';
 
 function App() {
   const [docId, setDocId] = useState(null);
