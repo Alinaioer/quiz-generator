@@ -8,7 +8,9 @@ const quizRouter = require('./routes/quiz');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5000', 'https://quiz-generator-uh9x.onrender.com']
+}));
 app.use(express.json());
 
 // Routes
