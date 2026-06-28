@@ -108,97 +108,107 @@ function App() {
   };
 
   return (
-    <div className="app">
-    <div className="header">
-      <h1>BrewQuiz</h1>
-      <p className="tagline">Freshly brewed. Never the same twice.</p>
-      <p className="description">Upload notes → brew fresh, plagiarism-resistant quizzes every time</p>
-    </div>
-   
-      <div className="card">
-        <label className="upload-zone">
-          <input type="file" accept="application/pdf" onChange={handleUpload} />
-          <div className="icon">📄</div>
-          <div className="label">{fileName || 'Click to upload a PDF'}</div>
-          <div className="sub">Lecture notes, textbooks, study material</div>
-        </label>
-
-        {docId && (
-          <button className="btn" onClick={handleGenerateQuiz} disabled={loading}>
-            Generate Quiz
-          </button>
-        )}
-
-        {status && (
-          <div className="status">
-            {loading && <div className="spinner" />}
-            {status}
-          </div>
-        )}
+    <>
+      <div className="bg-shapes">
+        <div className="shape shape-1"></div>
+        <div className="shape shape-2"></div>
+        <div className="shape shape-3 shape-square"></div>
+        <div className="shape shape-4"></div>
+        <div className="shape shape-5"></div>
       </div>
 
-      {quiz.length > 0 && submitted && (
-        <div className="results-card">
-          <div className="results-score">{percentage}%</div>
-          <div className="results-label">
-            You got {score} out of {quiz.length} correct
-          </div>
-          <button className="btn btn-secondary" onClick={handleRetake} disabled={loading}>
-            {loading ? 'Generating fresh questions...' : 'Retake with New Questions'}
-          </button>
+      <div className="app">
+        <div className="header">
+          <h1>BrewQuiz</h1>
+          <p className="tagline">Freshly brewed. Never the same twice.</p>
+          <p className="description">Upload notes → brew fresh, plagiarism-resistant quizzes every time</p>
         </div>
-      )}
 
-      {quiz.length > 0 && (
-        <div className="quiz-section">
-          <h2>
-            Your Quiz <span className="badge">{quiz.length} questions</span>
-          </h2>
+        <div className="card">
+          <label className="upload-zone">
+            <input type="file" accept="application/pdf" onChange={handleUpload} />
+            <div className="icon">📄</div>
+            <div className="label">{fileName || 'Click to upload a PDF'}</div>
+            <div className="sub">Lecture notes, textbooks, study material</div>
+          </label>
 
-          {quiz.map((q, i) => (
-            <div className="question-card" key={i}>
-              <div className="q-number">QUESTION {i + 1}</div>
-              <div className="q-text">{q.question}</div>
-
-              {q.options.map((opt, j) => (
-                <label key={j} className={getOptionClass(q, i, opt)}>
-                  <input
-                    type="radio"
-                    name={`q${i}`}
-                    checked={answers[i] === opt}
-                    onChange={() => selectAnswer(i, opt)}
-                    disabled={submitted}
-                  />
-                  {opt}
-                  {submitted && opt === q.answer && (
-                    <span className="tag tag-correct">✓ Correct answer</span>
-                  )}
-                  {submitted && answers[i] === opt && opt !== q.answer && (
-                    <span className="tag tag-incorrect">✗ Your answer</span>
-                  )}
-                </label>
-              ))}
-            </div>
-          ))}
-
-          {!submitted && (
-            <button
-              className="btn"
-              onClick={handleSubmit}
-              disabled={!allAnswered}
-            >
-              {allAnswered
-                ? 'Submit Quiz'
-                : `Answer all questions (${Object.keys(answers).length}/${quiz.length})`}
+          {docId && (
+            <button className="btn" onClick={handleGenerateQuiz} disabled={loading}>
+              Generate Quiz
             </button>
           )}
-        </div>
-      )}
 
-      {quiz.length === 0 && docId && !loading && (
-        <div className="empty-state">No quiz generated yet.</div>
-      )}
-    </div>
+          {status && (
+            <div className="status">
+              {loading && <div className="spinner" />}
+              {status}
+            </div>
+          )}
+        </div>
+
+        {quiz.length > 0 && submitted && (
+          <div className="results-card">
+            <div className="results-score">{percentage}%</div>
+            <div className="results-label">
+              You got {score} out of {quiz.length} correct
+            </div>
+            <button className="btn btn-secondary" onClick={handleRetake} disabled={loading}>
+              {loading ? 'Generating fresh questions...' : 'Retake with New Questions'}
+            </button>
+          </div>
+        )}
+
+        {quiz.length > 0 && (
+          <div className="quiz-section">
+            <h2>
+              Your Quiz <span className="badge">{quiz.length} questions</span>
+            </h2>
+
+            {quiz.map((q, i) => (
+              <div className="question-card" key={i}>
+                <div className="q-number">QUESTION {i + 1}</div>
+                <div className="q-text">{q.question}</div>
+
+                {q.options.map((opt, j) => (
+                  <label key={j} className={getOptionClass(q, i, opt)}>
+                    <input
+                      type="radio"
+                      name={`q${i}`}
+                      checked={answers[i] === opt}
+                      onChange={() => selectAnswer(i, opt)}
+                      disabled={submitted}
+                    />
+                    {opt}
+                    {submitted && opt === q.answer && (
+                      <span className="tag tag-correct">✓ Correct answer</span>
+                    )}
+                    {submitted && answers[i] === opt && opt !== q.answer && (
+                      <span className="tag tag-incorrect">✗ Your answer</span>
+                    )}
+                  </label>
+                ))}
+              </div>
+            ))}
+
+            {!submitted && (
+              <button
+                className="btn"
+                onClick={handleSubmit}
+                disabled={!allAnswered}
+              >
+                {allAnswered
+                  ? 'Submit Quiz'
+                  : `Answer all questions (${Object.keys(answers).length}/${quiz.length})`}
+              </button>
+            )}
+          </div>
+        )}
+
+        {quiz.length === 0 && docId && !loading && (
+          <div className="empty-state">No quiz generated yet.</div>
+        )}
+      </div>
+    </>
   );
 }
 
