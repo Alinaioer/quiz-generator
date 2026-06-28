@@ -7,7 +7,7 @@ async function embedText(text) {
   return result.embedding.values;
 }
 
-async function generateQuestion(chunkText, avoidList = []) {
+async function generateQuestion(chunkText, avoidList = [], retries = 3) {
   const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
   const avoidText = avoidList.length
@@ -18,16 +18,31 @@ async function generateQuestion(chunkText, avoidList = []) {
 You are a quiz generator. Based ONLY on the text below, create ONE multiple-choice question.
 ${avoidText}
 Return ONLY valid JSON in this exact format, no extra text:
-{"question": "...", "options": ["A", "B", "C", "D"], "answer": "A"}
+{"question": "...", "options": ["A) ...", "B) ...", "C) ...", "D) ..."], "answer": "A) ..."}
+
+IMPORTANT: The "answer" field must be copied EXACTLY character-for-character from one of the strings in "options", including the letter prefix like "A) ".
 
 Text:
 """${chunkText}"""
 `;
 
-  const result = await model.generateContent(prompt);
-  const raw = result.response.text();
-  const cleaned = raw.replace(/```json|```/g, '').trim();
-  return JSON.parse(cleaned);
+  for (let attempt = 0; attempt < retries; attempt++) {
+    try {
+      const result = await model.generateContent(prompt);
+      const raw = result.response.text();
+      const cleaned = raw.replace(/```json|```/g, '').trim();
+      return JSON.parse(cleaned);
+    } catch (err) {
+      const isRateLimited = err.status === 429 || err.status === 503;
+      if (isRateLimited && attempt < retries - 1) {
+        const waitTime = 3000 * (attempt + 1);
+        console.log(`Rate limited, retrying in ${waitTime}ms...`);
+        await new Promise((resolve) => setTimeout(resolve, waitTime));
+      } else {
+        throw err;
+      }
+    }
+  }
 }
 
 module.exports = { embedText, generateQuestion };

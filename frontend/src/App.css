@@ -418,12 +418,12 @@ body::after {
   position: absolute;
   border-radius: 50%;
   filter: blur(2px);
-  opacity: 0.5;
+  opacity: 0.8;
 }
 
 .shape-1 {
-  width: 80px;
-  height: 80px;
+  width: 200px;
+  height: 200px;
   background: linear-gradient(135deg, #a78bfa, transparent);
   top: 12%;
   left: 8%;
@@ -431,8 +431,8 @@ body::after {
 }
 
 .shape-2 {
-  width: 50px;
-  height: 50px;
+  width: 150px;
+  height: 150px;
   background: linear-gradient(135deg, #22d3ee, transparent);
   top: 65%;
   left: 85%;
@@ -440,8 +440,8 @@ body::after {
 }
 
 .shape-3 {
-  width: 110px;
-  height: 110px;
+  width: 250px;
+  height: 250px;
   background: linear-gradient(135deg, #f472b6, transparent);
   top: 78%;
   left: 12%;

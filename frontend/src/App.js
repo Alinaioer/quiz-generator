@@ -88,9 +88,18 @@ function App() {
     await handleGenerateQuiz();
   };
 
+  const normalize = (s) => (s || '').trim().toLowerCase();
+
+  const isAnswerCorrect = (opt, correctAnswer) => {
+    const nOpt = normalize(opt);
+    const nAns = normalize(correctAnswer);
+    if (!nAns) return false;
+    return nOpt === nAns || nOpt.includes(nAns) || nAns.includes(nOpt);
+  };
+
   const allAnswered = quiz.length > 0 && quiz.every((_, i) => answers[i]);
   const score = quiz.reduce(
-    (acc, q, i) => acc + (answers[i] === q.answer ? 1 : 0),
+    (acc, q, i) => acc + (isAnswerCorrect(answers[i], q.answer) ? 1 : 0),
     0
   );
   const percentage = quiz.length ? Math.round((score / quiz.length) * 100) : 0;
@@ -99,11 +108,11 @@ function App() {
     if (!submitted) {
       return answers[i] === opt ? 'option selected' : 'option';
     }
-    const isCorrect = opt === q.answer;
-    const isPicked = answers[i] === opt;
+    const correct = isAnswerCorrect(opt, q.answer);
+    const picked = answers[i] === opt;
 
-    if (isCorrect) return 'option correct';
-    if (isPicked && !isCorrect) return 'option incorrect';
+    if (correct) return 'option correct';
+    if (picked && !correct) return 'option incorrect';
     return 'option disabled';
   };
 
@@ -179,10 +188,10 @@ function App() {
                       disabled={submitted}
                     />
                     {opt}
-                    {submitted && opt === q.answer && (
+                    {submitted && isAnswerCorrect(opt, q.answer) && (
                       <span className="tag tag-correct">✓ Correct answer</span>
                     )}
-                    {submitted && answers[i] === opt && opt !== q.answer && (
+                    {submitted && answers[i] === opt && !isAnswerCorrect(opt, q.answer) && (
                       <span className="tag tag-incorrect">✗ Your answer</span>
                     )}
                   </label>
